@@ -128,11 +128,11 @@ if ($result -eq [System.Windows.Forms.DialogResult]::OK)
     if ($name)
     {
         # Находим всех пользователей по ФИО, сортируем по дате создания(по убыванию)
-        $department = (Get-ADUser -Filter {Name -eq $name} -Properties * | select CanonicalName, Created | Sort-Object -Property Created -Descending)
-        if ($department)
+        $users = (Get-ADUser -Filter {Name -eq $name} -Properties * | select CanonicalName, Created | Sort-Object -Property Created -Descending)
+        if ($users)
         {
             # Определяем департамент пользователя который создан последним
-            $department = $department[0].CanonicalName.Split("/")[3]
+            $department = $users[0].CanonicalName.Split("/")[3]
             # Получаем описание департамента
             $description_department = (Get-ADOrganizationalUnit -Filter {Name -eq $department} -Properties *).Description
             
